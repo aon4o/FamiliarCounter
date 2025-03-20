@@ -9,15 +9,11 @@ local LISTYOFFSET = Vector(0, 13)
 
 local SaveState = {}
 
-local options = {
-    detailed = true
-}
-
 function mod:save()
     SaveState.Settings = {}
 
-	for key, value in pairs(options) do
-		SaveState.Settings[tostring(key)] = options[key]
+	for key, value in pairs(settings) do
+		SaveState.Settings[tostring(key)] = settings[key]
 	end
 
     mod:SaveData(json.encode(SaveState))
@@ -28,7 +24,7 @@ function mod:init()
         SaveState = json.decode(mod:LoadData())	
 
         for key, value in pairs(SaveState.Settings) do
-            options[tostring(key)] = SaveState.Settings[key]
+            settings[tostring(key)] = SaveState.Settings[key]
         end
     end
 
@@ -87,7 +83,7 @@ function mod:render()
         return
     end
 
-    if options.detailed then
+    if settings.detailed then
         mod:renderDetailed()
     else
         mod:renderCompact()
@@ -132,8 +128,8 @@ function mod:renderCompact()
 
     local hudOffset = settings:getHudOffset()
 
-    for _, v in pairs(self.familiars) do
-        total = total + v[1]
+    for _, familiar in pairs(self.familiars) do
+        total = total + familiar[1]
     end
 
     if total > 63 then

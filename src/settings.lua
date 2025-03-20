@@ -1,21 +1,13 @@
 local settings = {
-    loaded = false
+    detailed = true
 }
 
 function settings:load()
-    if self.loaded then
-        return
-    end
-
     if ModConfigMenu == nil then
         return
     end
 
     local categoryName = "Familiar Counter"
-
-    local options = {
-        detailed = true
-    }
 
     ModConfigMenu.RemoveCategory(categoryName)
 
@@ -28,30 +20,24 @@ function settings:load()
         Attribute = "Detailed",
         Default = true,
         Display = function()
-            if options.detailed then
+            if settings.detailed then
                 return "Detailed Mode: Enabled"
             else
                 return "Detailed Mode: Disabled"
             end
         end,
         CurrentSetting = function()
-            return options.detailed
+            return settings.detailed
         end,
         OnChange = function(value)
-            options.detailed = value
+            settings.detailed = value
         end,
         Info = {"Show number of each familiar or just show an icon when the max is reached."}
     })
-
-    self.loaded = true
 end
 
 
 function settings:getHudOffset()
-    -- if ModConfigMenu then
-    --     return ModConfigMenu.Config.General.HudOffset
-    -- end
-
     return Options.HUDOffset * 10
 end
 

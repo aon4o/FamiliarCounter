@@ -19,3 +19,8 @@ This repo aims to continue the support of the mod and update some of the functio
 Contributions are welcome. :)
 
 If you feel like the is something missing from the mod, feel free to write an issue [here](https://github.com/aon4o/FamiliarCounter/issues).
+
+## Docs
+
+- [Repentance Modding Tutorials](https://www.youtube.com/playlist?list=PLkIbky8_pFUpqAF9l7dh_YsEV-zpJ4q50)
+- [Mod Config Menu](https://steamcommunity.com/sharedfiles/filedetails/?id=2681875787)

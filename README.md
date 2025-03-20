@@ -18,4 +18,4 @@ This repo aims to continue the support of the mod and update some of the functio
 
 Contributions are welcome. :)
 
-If you feel like the is something missing from the mod, feel free to write an issue here.
+If you feel like the is something missing from the mod, feel free to write an issue [here](https://github.com/aon4o/FamiliarCounter/issues).

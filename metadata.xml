@@ -3,8 +3,24 @@
     <name>Familiar Counter [Continued]</name>
     <directory>familiar_counter</directory>
     <id>3448462410</id>
-    <description>Shows how many familiars you currently have.</description>
-    <version>0.2</version>
+    <description>
+[h1] Familiar Counter [Continued] [/h1]
+
+Shows how many familiars you currently have.
+This is a continuation of the previous Familiar Counter mod, which is currently unsupported.
+This mod aims to continue supporting and updating some of the functionality.
+
+[h2] Settings [/h2]
+
+The mod supports some settings.
+For them to be accessible you need to have a [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2681875787]Mod Config Menu[/url].
+
+[h2] Supported Settings [/h2]
+
+[b]Compact Mode[/b]: only shows an icon when the familiar limit is hit.
+[b]Render Position[/b]: allows you to change the position where the counter is rendered. [WIP]
+    </description>
+    <version>0.3</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Familiars"/>

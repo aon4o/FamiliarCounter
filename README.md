@@ -25,3 +25,4 @@ If you feel like the is something missing from the mod, feel free to write an is
 - [Repentance Modding Tutorials](https://www.youtube.com/playlist?list=PLkIbky8_pFUpqAF9l7dh_YsEV-zpJ4q50)
 - [Mod Config Menu](https://steamcommunity.com/sharedfiles/filedetails/?id=2681875787)
 - [Binding of Isaac Lua API](https://github.com/filloax/isaac-lua-api-vscode)
+- [BoI API docs](https://wofsauge.github.io/IsaacDocs/rep/)

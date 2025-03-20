@@ -4,7 +4,7 @@
     <directory>familiar_counter</directory>
     <id>3448462410</id>
     <description>Shows how many familiars you currently have.</description>
-    <version>0.1</version>
+    <version>0.2</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Familiars"/>

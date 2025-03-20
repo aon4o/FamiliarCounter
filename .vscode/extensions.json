@@ -1,5 +1,6 @@
 {
     "recommendations": [
-        "filloax.isaac-lua-api-vscode"
+        "filloax.isaac-lua-api-vscode",
+        "sumneko.lua"
     ]
 }

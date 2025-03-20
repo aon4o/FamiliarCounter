@@ -1,5 +1,5 @@
-local settings = require("src.settings")
 local json = require("json")
+local settings = require("src.settings")
 local SPRITES = require("src.enums.sprites")
 
 local mod = RegisterMod("Familiar Counter", 1)
@@ -13,20 +13,26 @@ function mod:save()
     SaveState.Settings = {}
 
 	for key, value in pairs(settings) do
-		SaveState.Settings[tostring(key)] = settings[key]
+		SaveState.Settings[key] = value
 	end
 
     mod:SaveData(json.encode(SaveState))
 end
 
-function mod:init()
-    if mod:HasData() then
-        SaveState = json.decode(mod:LoadData())	
-
-        for key, value in pairs(SaveState.Settings) do
-            settings[tostring(key)] = SaveState.Settings[key]
-        end
+function mod:load()
+    if not mod:HasData() then
+        return
     end
+
+    SaveState = json.decode(mod:LoadData())
+
+    for key, value in pairs(SaveState.Settings) do
+        settings[key] = value
+    end
+end
+
+function mod:init()
+    mod:load()
 
     self.sprites = {
         spider = Sprite(),
@@ -137,7 +143,6 @@ function mod:renderCompact()
     end
 end
 
-
 function mod:onNewFamiliar(familiar)
     local roomEntities = Isaac.GetRoomEntities()
     table.insert(roomEntities, familiar)
@@ -151,9 +156,9 @@ function mod:onEntityDeath(deadEntity)
 
     local roomEntities = Isaac.GetRoomEntities()
 
-    for i, entity in pairs(roomEntities) do
+    for key, entity in pairs(roomEntities) do
         if entity.Variant == deadEntity.Variant then
-            table.remove(roomEntities, i)
+            table.remove(roomEntities, key)
             break
         end
     end
@@ -162,51 +167,54 @@ function mod:onEntityDeath(deadEntity)
 end
 
 function mod:calculate(roomEntities)
-    if #roomEntities > 0 and self.familiars then
-        local total = 0
+    if #roomEntities == 0 or not self.familiars then
+        return
+    end
 
-        for _, familiar in pairs(self.familiars) do
-            familiar[1] = 0
-            familiar[2] = "00"
+    local total = 0
+
+    for _, familiar in pairs(self.familiars) do
+        familiar[1] = 0
+        familiar[2] = "00"
+    end
+
+    for _, entity in pairs(roomEntities) do
+        if entity.Type ~= EntityType.ENTITY_FAMILIAR then
+            goto continue
         end
 
-        for _, entity in pairs(roomEntities) do
-            if entity.Type ~= EntityType.ENTITY_FAMILIAR then
-                goto continue
-            end
+        total = total + 1
 
-            total = total + 1
-
-            if entity.Variant == FamiliarVariant.BLUE_SPIDER then
-                self.familiars.spider[1] = self.familiars.spider[1] + 1
-            elseif entity.Variant == FamiliarVariant.BLUE_FLY then
-                self.familiars.fly[1] = self.familiars.fly[1] + 1
-            elseif entity.Variant == FamiliarVariant.DIP then
-                self.familiars.dip[1] = self.familiars.dip[1] + 1
-            elseif entity.Variant == FamiliarVariant.BLOOD_BABY then
-                self.familiars.clot[1] = self.familiars.clot[1] + 1
-            elseif entity.Variant == FamiliarVariant.ABYSS_LOCUST then
-                self.familiars.locust[1] = self.familiars.locust[1] + 1
-            elseif entity.Variant == FamiliarVariant.WISP or entity.Variant == FamiliarVariant.ITEM_WISP then
-                self.familiars.wisp[1] = self.familiars.wisp[1] + 1
-            else
-                self.familiars.all[1] = self.familiars.all[1] + 1
-            end
-
-            ::continue::
+        if entity.Variant == FamiliarVariant.BLUE_SPIDER then
+            self.familiars.spider[1] = self.familiars.spider[1] + 1
+        elseif entity.Variant == FamiliarVariant.BLUE_FLY then
+            self.familiars.fly[1] = self.familiars.fly[1] + 1
+        elseif entity.Variant == FamiliarVariant.DIP then
+            self.familiars.dip[1] = self.familiars.dip[1] + 1
+        elseif entity.Variant == FamiliarVariant.BLOOD_BABY then
+            self.familiars.clot[1] = self.familiars.clot[1] + 1
+        elseif entity.Variant == FamiliarVariant.ABYSS_LOCUST then
+            self.familiars.locust[1] = self.familiars.locust[1] + 1
+        elseif entity.Variant == FamiliarVariant.WISP or entity.Variant == FamiliarVariant.ITEM_WISP then
+            self.familiars.wisp[1] = self.familiars.wisp[1] + 1
+        else
+            self.familiars.all[1] = self.familiars.all[1] + 1
         end
 
-        for _, v in pairs(self.familiars) do
-            if v[1] < 10 then
-                v[2] = "0" .. tostring(v[1])
-            else
-                v[2] = tostring(v[1])
-            end
-        end
+        ::continue::
+    end
 
-        if total == 65 then  -- Probably not the most efficient but this was the only way to get it to properly update the number after the game auto-removes a familiar due to there being too many.
-            mod:calculate(Isaac.GetRoomEntities())
+    for _, familiar in pairs(self.familiars) do
+        if familiar[1] < 10 then
+            familiar[2] = "0" .. tostring(familiar[1])
+        else
+            familiar[2] = tostring(familiar[1])
         end
+    end
+
+    -- Probably not the most efficient but this was the only way to get it to properly update the number after the game auto-removes a familiar due to there being too many.
+    if total == 65 then
+        mod:calculate(Isaac.GetRoomEntities())
     end
 end
 

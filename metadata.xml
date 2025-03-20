@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-    <name>Familiar Counter</name>
-    <directory>familiarcounter</directory>
-    <id>2496751594</id>
-    <description>Shows how many familiars you have. There is a less detailed option if you subscribe to the configuration menu mod.</description>
-    <version>2.2</version>
+    <name>Familiar Counter [Continued]</name>
+    <directory>familiar_counter</directory>
+    <id>3448462410</id>
+    <description>Shows how many familiars you currently have.</description>
+    <version>0.1</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Familiars"/>

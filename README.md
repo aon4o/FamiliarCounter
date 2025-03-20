@@ -12,7 +12,7 @@ This repo aims to continue the support of the mod and update some of the functio
 
 - [x] Familiar Counters
 - [x] Compact counter
-- [] Customizable couner position
+- [ ] Customizable couner position
 
 ## Contributing
 

@@ -1,5 +1,7 @@
 {
     "files.associations": {
         ".anm2": "xml"
-    }
+    },
+    "Lua.format.enable": true,
+    "editor.formatOnSave": true
 }

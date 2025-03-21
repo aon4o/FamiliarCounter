@@ -1,5 +1,7 @@
 local settings = {
-    detailed = true
+    detailed = true,
+    xOffset = 0,
+    yOffset = 0,
 }
 
 function settings:load()
@@ -33,6 +35,38 @@ function settings:load()
             settings.detailed = value
         end,
         Info = {"Show number of each familiar or just show an icon when the max is reached."}
+    })
+
+    ModConfigMenu.AddSetting(categoryName, {
+        Type = ModConfigMenu.OptionType.NUMBER,
+        CurrentSetting = function()
+            return settings.xOffset
+        end,
+        Minimum = 0,
+        Maximum = 100,
+        Display = function()
+            return "X Offset: " .. settings.xOffset
+        end,
+        OnChange = function(value)
+            settings.xOffset = value
+        end,
+        Info = { "The offset of the counter from left to right." }
+    })
+
+    ModConfigMenu.AddSetting(categoryName, {
+        Type = ModConfigMenu.OptionType.NUMBER,
+        CurrentSetting = function()
+            return settings.yOffset
+        end,
+        Minimum = 0,
+        Maximum = 100,
+        Display = function()
+            return "Y Offset: " .. settings.yOffset
+        end,
+        OnChange = function(value)
+            settings.yOffset = value
+        end,
+        Info = { "The offset of the counter from top to bottom." }
     })
 end
 

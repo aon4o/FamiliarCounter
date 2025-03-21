@@ -79,7 +79,6 @@ function mod:init()
     mod:calculate(Isaac.GetRoomEntities())
 end
 
-
 function mod:render()
     if not self.familiars then
         mod:init()
@@ -101,16 +100,20 @@ function mod:renderDetailed()
     local total = 0
 
     local hudOffset = settings:getHudOffset()
+    local xOffset = settings.xOffset or 0
+    local yOffset = settings.yOffset or 0
 
     for _, familiar in pairs(self.familiars) do
         if familiar[1] > 0 then
-            familiar[3]:Render(familiar[4] + LISTYOFFSET*x + (OFFSET * hudOffset))
+            familiar[3]:Render(
+                familiar[4] + LISTYOFFSET * x + (OFFSET * hudOffset) + Vector(xOffset, yOffset)
+            )
 
             self.font:DrawString(
                 familiar[2],
-                familiar[4].X + 9 + (OFFSET * hudOffset).X, 
-                familiar[4].Y + (LISTYOFFSET*x).Y + familiar[5] + (OFFSET * hudOffset).Y, 
-                KColor(1,1,1,1)
+                familiar[4].X + 9 + (OFFSET * hudOffset).X + xOffset,
+                familiar[4].Y + (LISTYOFFSET * x).Y + familiar[5] + (OFFSET * hudOffset).Y + yOffset,
+                KColor(1, 1, 1, 1)
             )
 
             x = x + 1
@@ -121,9 +124,9 @@ function mod:renderDetailed()
     if total > 0 then
         self.font:DrawString(
             tostring(total) .. "/64",
-            40 + (OFFSET * hudOffset).X,
-            31+LISTYOFFSET.Y*x + (OFFSET * hudOffset).Y,
-            KColor(1,1,1,1)
+            40 + (OFFSET * hudOffset).X + xOffset,
+            31 + LISTYOFFSET.Y * x + (OFFSET * hudOffset).Y + yOffset,
+            KColor(1, 1, 1, 1)
         )
     end
 end
@@ -133,13 +136,17 @@ function mod:renderCompact()
     local total = 0
 
     local hudOffset = settings:getHudOffset()
+    local xOffset = settings.xOffset or 0
+    local yOffset = settings.yOffset or 0
 
     for _, familiar in pairs(self.familiars) do
         total = total + familiar[1]
     end
 
     if total > 63 then
-        self.sprites.max:Render(Vector(45, 41) + LISTYOFFSET*x + (OFFSET * hudOffset))
+        self.sprites.max:Render(
+            Vector(45, 41) + LISTYOFFSET * x + (OFFSET * hudOffset) + Vector(xOffset, yOffset)
+        )
     end
 end
 

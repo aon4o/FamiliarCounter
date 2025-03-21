@@ -43,7 +43,7 @@ function settings:load()
             return settings.xOffset
         end,
         Minimum = 0,
-        Maximum = 100,
+        Maximum = 300,
         Display = function()
             return "X Offset: " .. settings.xOffset
         end,
@@ -59,7 +59,7 @@ function settings:load()
             return settings.yOffset
         end,
         Minimum = 0,
-        Maximum = 100,
+        Maximum = 150,
         Display = function()
             return "Y Offset: " .. settings.yOffset
         end,

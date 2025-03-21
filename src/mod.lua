@@ -4,17 +4,17 @@ local SPRITES = require("src.enums.sprites")
 
 local mod = RegisterMod("Familiar Counter", 1)
 
-local OFFSET = Vector(2,1.2)
-local LISTYOFFSET = Vector(0, 13)
+local hudOffsetScale = Vector(2, 1.2)
+local lineHeight = Vector(0, 11)
 
 local SaveState = {}
 
 function mod:save()
     SaveState.Settings = {}
 
-	for key, value in pairs(settings) do
-		SaveState.Settings[key] = value
-	end
+    for key, value in pairs(settings) do
+        SaveState.Settings[key] = value
+    end
 
     mod:SaveData(json.encode(SaveState))
 end
@@ -55,22 +55,63 @@ function mod:init()
     self.sprites.wisp:Load(SPRITES.WISP, true)
 
     for _, sprite in pairs(self.sprites) do
-        sprite.Color = Color(1,1,1,1)
+        sprite.Color = Color(1, 1, 1, 1)
         sprite.Scale = Vector(0.5, 0.5)
         sprite:SetFrame("Idle", 0)
     end
 
     self.sprites.all:SetFrame("IdleDown", 0)
 
-    -- Count, display string, sprite object, default position (factoring in hud offset), text offset
     self.familiars = {
-        clot = {0, "00", self.sprites.clot, Vector(45, 43), -10},
-        locust = {0, "00", self.sprites.locust, Vector(45, 50), -16},
-        wisp = {0, "00", self.sprites.wisp, Vector(45, 50), -16},
-        fly = {0, "00", self.sprites.fly, Vector(45, 48) , -15},
-        spider = {0, "00", self.sprites.spider, Vector(45, 43), -9},
-        dip = {0, "00", self.sprites.dip, Vector(45, 45), -11},
-        all = {0, "00", self.sprites.all, Vector(45, 48), -15},
+        clot = {
+            count = 0,
+            textCount = "00",
+            sprite = self.sprites.clot,
+            spriteOffset = Vector(5, 12),
+            textOffsetY = -10
+        },
+        locust = {
+            count = 0,
+            textCount = "00",
+            sprite = self.sprites.locust,
+            spriteOffset = Vector(5, 19),
+            textOffsetY = -16
+        },
+        wisp = {
+            count = 0,
+            textCount = "00",
+            sprite = self.sprites.wisp,
+            spriteOffset = Vector(5, 19),
+            textOffsetY = -16
+        },
+        fly = {
+            count = 0,
+            textCount = "00",
+            sprite = self.sprites.fly,
+            spriteOffset = Vector(5, 17),
+            textOffsetY = -15
+        },
+        spider = {
+            count = 0,
+            textCount = "00",
+            sprite = self.sprites.spider,
+            spriteOffset = Vector(5, 12),
+            textOffsetY = -9
+        },
+        dip = {
+            count = 0,
+            textCount = "00",
+            sprite = self.sprites.dip,
+            spriteOffset = Vector(5, 14),
+            textOffsetY = -11
+        },
+        all = {
+            count = 0,
+            textCount = "00",
+            sprite = self.sprites.all,
+            spriteOffset = Vector(5, 17),
+            textOffsetY = -15
+        },
     }
 
     self.font = Font()
@@ -96,36 +137,37 @@ function mod:render()
 end
 
 function mod:renderDetailed()
-    local x = 0
-    local total = 0
+    local lineIndex = 0
+    local totalFamiliars = 0
 
-    local hudOffset = settings:getHudOffset()
-    local xOffset = settings.xOffset or 0
-    local yOffset = settings.yOffset or 0
+    local hudOffset = hudOffsetScale * settings:getHudOffset()
+    local xOffset = settings.xOffset
+    local yOffset = settings.yOffset
+    local textOffsetX = 8
 
     for _, familiar in pairs(self.familiars) do
-        if familiar[1] > 0 then
-            familiar[3]:Render(
-                familiar[4] + LISTYOFFSET * x + (OFFSET * hudOffset) + Vector(xOffset, yOffset)
+        if familiar.count > 0 then
+            familiar.sprite:Render(
+                familiar.spriteOffset + lineHeight * lineIndex + hudOffset + Vector(xOffset, yOffset)
             )
 
             self.font:DrawString(
-                familiar[2],
-                familiar[4].X + 9 + (OFFSET * hudOffset).X + xOffset,
-                familiar[4].Y + (LISTYOFFSET * x).Y + familiar[5] + (OFFSET * hudOffset).Y + yOffset,
+                familiar.textCount,
+                familiar.spriteOffset.X + textOffsetX + hudOffset.X + xOffset,
+                familiar.spriteOffset.Y + (lineHeight * lineIndex).Y + familiar.textOffsetY + hudOffset.Y + yOffset,
                 KColor(1, 1, 1, 1)
             )
 
-            x = x + 1
-            total = total + familiar[1]
+            lineIndex = lineIndex + 1
+            totalFamiliars = totalFamiliars + familiar.count
         end
     end
 
-    if total > 0 then
+    if totalFamiliars > 0 then
         self.font:DrawString(
-            tostring(total) .. "/64",
-            40 + (OFFSET * hudOffset).X + xOffset,
-            31 + LISTYOFFSET.Y * x + (OFFSET * hudOffset).Y + yOffset,
+            tostring(totalFamiliars) .. "/64",
+            hudOffset.X + xOffset,
+            2 + lineHeight.Y * lineIndex + hudOffset.Y + yOffset,
             KColor(1, 1, 1, 1)
         )
     end
@@ -135,17 +177,17 @@ function mod:renderCompact()
     local x = 0
     local total = 0
 
-    local hudOffset = settings:getHudOffset()
-    local xOffset = settings.xOffset or 0
-    local yOffset = settings.yOffset or 0
+    local hudOffset = hudOffsetScale * settings:getHudOffset()
+    local xOffset = settings.xOffset
+    local yOffset = settings.yOffset
 
     for _, familiar in pairs(self.familiars) do
-        total = total + familiar[1]
+        total = total + familiar.count
     end
 
     if total > 63 then
         self.sprites.max:Render(
-            Vector(45, 41) + LISTYOFFSET * x + (OFFSET * hudOffset) + Vector(xOffset, yOffset)
+            lineHeight * x + hudOffset + Vector(xOffset, yOffset)
         )
     end
 end
@@ -181,8 +223,12 @@ function mod:calculate(roomEntities)
     local total = 0
 
     for _, familiar in pairs(self.familiars) do
-        familiar[1] = 0
-        familiar[2] = "00"
+        familiar.count = 0
+        familiar.textCount = "00"
+
+        -- For debugging purposes
+        -- familiar.count = 0
+        -- familiar.textCount = "00"
     end
 
     for _, entity in pairs(roomEntities) do
@@ -193,33 +239,35 @@ function mod:calculate(roomEntities)
         total = total + 1
 
         if entity.Variant == FamiliarVariant.BLUE_SPIDER then
-            self.familiars.spider[1] = self.familiars.spider[1] + 1
+            self.familiars.spider.count = self.familiars.spider.count + 1
         elseif entity.Variant == FamiliarVariant.BLUE_FLY then
-            self.familiars.fly[1] = self.familiars.fly[1] + 1
+            self.familiars.fly.count = self.familiars.fly.count + 1
         elseif entity.Variant == FamiliarVariant.DIP then
-            self.familiars.dip[1] = self.familiars.dip[1] + 1
+            self.familiars.dip.count = self.familiars.dip.count + 1
         elseif entity.Variant == FamiliarVariant.BLOOD_BABY then
-            self.familiars.clot[1] = self.familiars.clot[1] + 1
+            self.familiars.clot.count = self.familiars.clot.count + 1
         elseif entity.Variant == FamiliarVariant.ABYSS_LOCUST then
-            self.familiars.locust[1] = self.familiars.locust[1] + 1
+            self.familiars.locust.count = self.familiars.locust.count + 1
         elseif entity.Variant == FamiliarVariant.WISP or entity.Variant == FamiliarVariant.ITEM_WISP then
-            self.familiars.wisp[1] = self.familiars.wisp[1] + 1
+            self.familiars.wisp.count = self.familiars.wisp.count + 1
         else
-            self.familiars.all[1] = self.familiars.all[1] + 1
+            self.familiars.all.count = self.familiars.all.count + 1
         end
 
         ::continue::
     end
 
     for _, familiar in pairs(self.familiars) do
-        if familiar[1] < 10 then
-            familiar[2] = "0" .. tostring(familiar[1])
+        if familiar.count < 10 then
+            familiar.textCount = "0" .. tostring(familiar.count)
         else
-            familiar[2] = tostring(familiar[1])
+            familiar.textCount = tostring(familiar.count)
         end
     end
 
-    -- Probably not the most efficient but this was the only way to get it to properly update the number after the game auto-removes a familiar due to there being too many.
+    -- Probably not the most efficient but this was the only way
+    -- to get it to properly update the number after the game
+    -- auto-removes a familiar due to there being too many.
     if total == 65 then
         mod:calculate(Isaac.GetRoomEntities())
     end

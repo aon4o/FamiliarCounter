@@ -6,7 +6,7 @@ local SPRITES = {
     ALL = "gfx/003.001_brother bobby.anm2",
     MAX = "gfx/maxfamiliars.anm2",
     LOCUST = "gfx/003.031_distant admiration.anm2",
-    WISP = "gfx/003.206_wisp.anm2"
+    WISP = "gfx/003.206_wisp.anm2",
 }
 
 return SPRITES

@@ -1,7 +1,10 @@
+local metadata = require("src.metadata")
+
 local settings = {
     detailed = true,
     xOffset = 1,  -- actually 5
     yOffset = 37, -- actually 185
+    textOpacity = 0.6,
 }
 
 function settings:load()
@@ -9,7 +12,9 @@ function settings:load()
         return
     end
 
-    local categoryName = "Familiar Counter"
+    local categoryName = metadata.modName
+    local sectionAbout = "About"
+    local sectionSettings = "Settings"
 
     ModConfigMenu.RemoveCategory(categoryName)
 
@@ -17,7 +22,13 @@ function settings:load()
         Name = categoryName,
     })
 
-    ModConfigMenu.AddSetting(categoryName, {
+    ModConfigMenu.AddTitle(categoryName, sectionAbout, categoryName)
+    ModConfigMenu.AddSpace(categoryName, sectionAbout)
+    ModConfigMenu.AddText(categoryName, sectionAbout, "Version: " .. metadata.version)
+    ModConfigMenu.AddSpace(categoryName, sectionAbout)
+    ModConfigMenu.AddText(categoryName, sectionAbout, "Made with Love <3 by: " .. metadata.author)
+
+    ModConfigMenu.AddSetting(categoryName, sectionSettings, {
         Type = ModConfigMenu.OptionType.BOOLEAN,
         Attribute = "Detailed",
         Default = true,
@@ -36,8 +47,10 @@ function settings:load()
         end,
         Info = { "Show number of each familiar or just show an icon when the max is reached." }
     })
+    
+    ModConfigMenu.AddSpace(categoryName, sectionSettings)
 
-    ModConfigMenu.AddSetting(categoryName, {
+    ModConfigMenu.AddSetting(categoryName, sectionSettings, {
         Type = ModConfigMenu.OptionType.NUMBER,
         CurrentSetting = function()
             return settings.xOffset / 5
@@ -53,7 +66,7 @@ function settings:load()
         Info = { "The offset of the counter from left to right." }
     })
 
-    ModConfigMenu.AddSetting(categoryName, {
+    ModConfigMenu.AddSetting(categoryName, sectionSettings, {
         Type = ModConfigMenu.OptionType.NUMBER,
         CurrentSetting = function()
             return settings.yOffset / 5
@@ -67,6 +80,23 @@ function settings:load()
             settings.yOffset = value * 5
         end,
         Info = { "The offset of the counter from top to bottom." }
+    })
+
+    ModConfigMenu.AddSpace(categoryName, sectionSettings)
+    ModConfigMenu.AddText(categoryName, sectionSettings, "[WIP]")
+
+    ModConfigMenu.AddSetting(categoryName, sectionSettings, {
+        Type = ModConfigMenu.OptionType.SCROLL,
+        CurrentSetting = function()
+            return settings.textOpacity
+        end,
+        Display = function()
+            return "Text Opacity: $scroll" .. settings.textOpacity
+        end,
+        OnChange = function(value)
+            settings.textOpacity = value
+        end,
+        Info = { "How transperent the text is." }
     })
 end
 

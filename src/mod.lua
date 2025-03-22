@@ -1,8 +1,9 @@
 local json = require("json")
 local settings = require("src.settings")
+local metadata = require("src.metadata")
 local SPRITES = require("src.enums.sprites")
 
-local mod = RegisterMod("Familiar Counter", 1)
+local mod = RegisterMod(metadata.modName, 1)
 
 local hudOffsetScale = Vector(2, 1.2)
 local lineHeight = Vector(0, 11)
@@ -227,8 +228,8 @@ function mod:calculate(roomEntities)
         familiar.textCount = "00"
 
         -- For debugging purposes
-        -- familiar.count = 0
-        -- familiar.textCount = "00"
+        -- familiar.count = 1
+        -- familiar.textCount = "01"
     end
 
     for _, entity in pairs(roomEntities) do

@@ -26,9 +26,9 @@ For them to be accessible you need to have a [url=https://steamcommunity.com/sha
 [h2] Contributing and Suggestions [/h2]
 
 Contributions and suggestions are more than welcome!
-Feel free to open an issue with the stuff you would like to se on the mod [url=https://github.com/Tazmondo/FamiliarCounter/issues/new]here[/url].
+Feel free to open an issue with the stuff you would like to se on the mod [url=https://github.com/aon4o/FamiliarCounter/issues/new]here[/url].
     </description>
-    <version>0.7</version>
+    <version>0.8</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Familiars"/>

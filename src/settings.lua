@@ -12,24 +12,37 @@ function settings:load()
         return
     end
 
+    local menu = ModConfigMenu
+
     local categoryName = metadata.modName
     local sectionAbout = "About"
     local sectionSettings = "Settings"
 
-    ModConfigMenu.RemoveCategory(categoryName)
+    menu.RemoveCategory(categoryName)
 
-    ModConfigMenu.UpdateCategory(categoryName, {
+    menu.UpdateCategory(categoryName, {
         Name = categoryName,
+        Info = "Settings for the " .. categoryName .. " mod."
     })
 
-    ModConfigMenu.AddTitle(categoryName, sectionAbout, categoryName)
-    ModConfigMenu.AddSpace(categoryName, sectionAbout)
-    ModConfigMenu.AddText(categoryName, sectionAbout, "Version: " .. metadata.version)
-    ModConfigMenu.AddSpace(categoryName, sectionAbout)
-    ModConfigMenu.AddText(categoryName, sectionAbout, "Made with Love <3 by: " .. metadata.author)
+    menu.UpdateSubcategory(categoryName, sectionAbout, {
+        Name = sectionAbout,
+        Info = "Information about the " .. categoryName .. " mod."
+    })
 
-    ModConfigMenu.AddSetting(categoryName, sectionSettings, {
-        Type = ModConfigMenu.OptionType.BOOLEAN,
+    menu.AddTitle(categoryName, sectionAbout, categoryName)
+    menu.AddSpace(categoryName, sectionAbout)
+    menu.AddText(categoryName, sectionAbout, "Version: " .. metadata.version)
+    menu.AddSpace(categoryName, sectionAbout)
+    menu.AddText(categoryName, sectionAbout, "Made with Love <3 by: " .. metadata.author)
+
+    menu.UpdateSubcategory(categoryName, sectionSettings, {
+        Name = sectionSettings,
+        Info = "Settings for the " .. categoryName .. " mod."
+    })
+
+    menu.AddSetting(categoryName, sectionSettings, {
+        Type = menu.OptionType.BOOLEAN,
         Attribute = "Detailed",
         Default = true,
         Display = function()
@@ -47,11 +60,11 @@ function settings:load()
         end,
         Info = { "Show number of each familiar or just show an icon when the max is reached." }
     })
-    
-    ModConfigMenu.AddSpace(categoryName, sectionSettings)
 
-    ModConfigMenu.AddSetting(categoryName, sectionSettings, {
-        Type = ModConfigMenu.OptionType.NUMBER,
+    menu.AddSpace(categoryName, sectionSettings)
+
+    menu.AddSetting(categoryName, sectionSettings, {
+        Type = menu.OptionType.NUMBER,
         CurrentSetting = function()
             return settings.xOffset / 5
         end,
@@ -66,8 +79,8 @@ function settings:load()
         Info = { "The offset of the counter from left to right." }
     })
 
-    ModConfigMenu.AddSetting(categoryName, sectionSettings, {
-        Type = ModConfigMenu.OptionType.NUMBER,
+    menu.AddSetting(categoryName, sectionSettings, {
+        Type = menu.OptionType.NUMBER,
         CurrentSetting = function()
             return settings.yOffset / 5
         end,
@@ -82,11 +95,11 @@ function settings:load()
         Info = { "The offset of the counter from top to bottom." }
     })
 
-    ModConfigMenu.AddSpace(categoryName, sectionSettings)
-    ModConfigMenu.AddText(categoryName, sectionSettings, "[WIP]")
+    menu.AddSpace(categoryName, sectionSettings)
+    menu.AddText(categoryName, sectionSettings, "[WIP]")
 
-    ModConfigMenu.AddSetting(categoryName, sectionSettings, {
-        Type = ModConfigMenu.OptionType.SCROLL,
+    menu.AddSetting(categoryName, sectionSettings, {
+        Type = menu.OptionType.SCROLL,
         CurrentSetting = function()
             return settings.textOpacity
         end,

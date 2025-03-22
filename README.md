@@ -12,7 +12,10 @@ This repo aims to continue the support of the mod and update some of the functio
 
 - [x] Familiar Counters
 - [x] Compact counter
-- [ ] Customizable couner position
+- [x] Customizable couner position
+- [ ] Text opacity setting
+- [ ] Text size setting
+- [ ] Line height setting
 
 ## Contributing
 

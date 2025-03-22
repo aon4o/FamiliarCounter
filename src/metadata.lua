@@ -1,6 +1,6 @@
 local metadata = {
     modName = "Familiar Counter",
-    version = "0.4",
+    version = "0.5",
     author = "aon4o",
 }
 

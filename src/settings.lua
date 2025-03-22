@@ -5,6 +5,7 @@ local settings = {
     xOffset = 1,  -- actually 5
     yOffset = 37, -- actually 185
     textOpacity = 0.6,
+    lineHeight = 12,
 }
 
 function settings:load()
@@ -76,7 +77,7 @@ function settings:load()
         OnChange = function(value)
             settings.xOffset = value * 5
         end,
-        Info = { "The offset of the counter from left to right." }
+        Info = { "The offset of the counter from left to right. Default: 5" }
     })
 
     menu.AddSetting(categoryName, sectionSettings, {
@@ -92,7 +93,25 @@ function settings:load()
         OnChange = function(value)
             settings.yOffset = value * 5
         end,
-        Info = { "The offset of the counter from top to bottom." }
+        Info = { "The offset of the counter from top to bottom. Default: 185" }
+    })
+
+    menu.AddSpace(categoryName, sectionSettings)
+
+    menu.AddSetting(categoryName, sectionSettings, {
+        Type = menu.OptionType.NUMBER,
+        CurrentSetting = function()
+            return settings.lineHeight
+        end,
+        Minimum = -30,
+        Maximum = 30,
+        Display = function()
+            return "Line Height: " .. settings.lineHeight
+        end,
+        OnChange = function(value)
+            settings.lineHeight = value
+        end,
+        Info = { "How much space there is between text lines. Default: 12" }
     })
 
     menu.AddSpace(categoryName, sectionSettings)

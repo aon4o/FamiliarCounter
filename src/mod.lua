@@ -6,7 +6,6 @@ local SPRITES = require("src.enums.sprites")
 local mod = RegisterMod(metadata.modName, 1)
 
 local hudOffsetScale = Vector(2, 1.2)
-local lineHeight = Vector(0, 11)
 
 local SaveState = {}
 
@@ -145,6 +144,7 @@ function mod:renderDetailed()
     local xOffset = settings.xOffset
     local yOffset = settings.yOffset
     local textOffsetX = 8
+    local lineHeight = Vector(0, settings.lineHeight)
 
     for _, familiar in pairs(self.familiars) do
         if familiar.count > 0 then
@@ -181,6 +181,7 @@ function mod:renderCompact()
     local hudOffset = hudOffsetScale * settings:getHudOffset()
     local xOffset = settings.xOffset
     local yOffset = settings.yOffset
+    local lineHeight = Vector(0, settings.lineHeight)
 
     for _, familiar in pairs(self.familiars) do
         total = total + familiar.count

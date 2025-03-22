@@ -14,7 +14,6 @@ This repo aims to continue the support of the mod and update some of the functio
 - [x] Compact counter
 - [x] Customizable couner position
 - [x] Text opacity setting
-- [ ] Text size setting
 - [x] Line height setting
 - [x] Font setting
 

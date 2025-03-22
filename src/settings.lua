@@ -6,15 +6,15 @@ local settings = {
     detailed = true,
     xOffset = 1,  -- actually 5
     yOffset = 37, -- actually 185
-    textOpacity = 0.6,
-    lineHeight = 12,
+    textOpacity = 0.4,
+    lineHeight = 10,
     font = FONTS[1]
 }
 
-local function getTableIndex(tbl, val)
-    for i, v in ipairs(tbl) do
-        if v == val then
-            return i
+local function getTableIndex(table, searchValue)
+    for key, value in ipairs(table) do
+        if value == searchValue then
+            return key
         end
     end
 
@@ -124,7 +124,7 @@ function settings:load(mod)
         OnChange = function(value)
             settings.lineHeight = value
         end,
-        Info = { "How much space there is between text lines. Default: 12" }
+        Info = { "How much space there is between text lines. Default: 10" }
     })
 
     menu.AddSetting(categoryName, sectionSettings, {
@@ -139,7 +139,7 @@ function settings:load(mod)
             settings.textOpacity = value / 10
             mod:reloadTextSettings()
         end,
-        Info = { "How transperent the text is. Default: 0.6" }
+        Info = { "How transperent the text is. Default: 0.4" }
     })
 
     menu.AddSetting(categoryName, sectionSettings, {

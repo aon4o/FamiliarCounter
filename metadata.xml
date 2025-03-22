@@ -21,13 +21,14 @@ For them to be accessible you need to have a [url=https://steamcommunity.com/sha
 [b]Render Position[/b]: allows you to change the position where the counter is rendered.
 [b]Line Height[/b]: allows you to change the spacing between the text lines.
 [b]Text Opacity[/b]: allows you to change the opacity of the text and sprites.
+[b]Font[/b]: allows you to change the font used to render text.
 
 [h2] Contributing and Suggestions [/h2]
 
 Contributions and suggestions are more than welcome!
 Feel free to open an issue with the stuff you would like to se on the mod [url=https://github.com/Tazmondo/FamiliarCounter/issues/new]here[/url].
     </description>
-    <version>0.6</version>
+    <version>0.7</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Familiars"/>

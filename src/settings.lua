@@ -1,5 +1,6 @@
-local metadata = require("src.metadata")
 local math = require("math")
+local metadata = require("src.metadata")
+local FONTS = require("src.enums.fonts")
 
 local settings = {
     detailed = true,
@@ -7,7 +8,18 @@ local settings = {
     yOffset = 37, -- actually 185
     textOpacity = 0.6,
     lineHeight = 12,
+    font = FONTS[1]
 }
+
+local function getTableIndex(tbl, val)
+    for i, v in ipairs(tbl) do
+        if v == val then
+            return i
+        end
+    end
+
+    return 0
+end
 
 function settings:load(mod)
     if ModConfigMenu == nil then
@@ -115,9 +127,6 @@ function settings:load(mod)
         Info = { "How much space there is between text lines. Default: 12" }
     })
 
-    menu.AddSpace(categoryName, sectionSettings)
-    menu.AddText(categoryName, sectionSettings, "[WIP]")
-
     menu.AddSetting(categoryName, sectionSettings, {
         Type = menu.OptionType.SCROLL,
         CurrentSetting = function()
@@ -128,9 +137,26 @@ function settings:load(mod)
         end,
         OnChange = function(value)
             settings.textOpacity = value / 10
-            mod:reloadColors()
+            mod:reloadTextSettings()
         end,
         Info = { "How transperent the text is. Default: 0.6" }
+    })
+
+    menu.AddSetting(categoryName, sectionSettings, {
+        Type = menu.OptionType.NUMBER,
+        CurrentSetting = function()
+            return getTableIndex(FONTS, settings.font)
+        end,
+        Minimum = 1,
+        Maximum = #FONTS,
+        Display = function()
+            return "Font: " .. settings.font
+        end,
+        OnChange = function(index)
+            settings.font = FONTS[index]
+            mod:reloadTextSettings()
+        end,
+        Info = { "The font that will be used for rendering the text." }
     })
 end
 

@@ -16,6 +16,7 @@ This repo aims to continue the support of the mod and update some of the functio
 - [x] Text opacity setting
 - [ ] Text size setting
 - [x] Line height setting
+- [x] Font setting
 
 ## Contributing
 

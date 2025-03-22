@@ -31,7 +31,9 @@ function mod:load()
     end
 end
 
-function mod:reloadColors()
+function mod:reloadTextSettings()
+    self.font:Load(settings.font)
+
     self.textColor = KColor(1, 1, 1, settings.textOpacity)
     self.spriteColor = Color(1, 1, 1, settings.textOpacity)
 
@@ -44,7 +46,6 @@ function mod:init()
     mod:load()
 
     self.font = Font()
-    self.font:Load("font/pftempestasevencondensed.fnt")
 
     self.sprites = {
         spider = Sprite(),
@@ -71,7 +72,7 @@ function mod:init()
         sprite:SetFrame("Idle", 0)
     end
 
-    mod:reloadColors()
+    mod:reloadTextSettings()
 
     self.sprites.all:SetFrame("IdleDown", 0)
 

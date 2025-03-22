@@ -31,8 +31,20 @@ function mod:load()
     end
 end
 
+function mod:reloadColors()
+    self.textColor = KColor(1, 1, 1, settings.textOpacity)
+    self.spriteColor = Color(1, 1, 1, settings.textOpacity)
+
+    for _, sprite in pairs(self.sprites) do
+        sprite.Color = self.spriteColor
+    end
+end
+
 function mod:init()
     mod:load()
+
+    self.font = Font()
+    self.font:Load("font/pftempestasevencondensed.fnt")
 
     self.sprites = {
         spider = Sprite(),
@@ -55,10 +67,11 @@ function mod:init()
     self.sprites.wisp:Load(SPRITES.WISP, true)
 
     for _, sprite in pairs(self.sprites) do
-        sprite.Color = Color(1, 1, 1, 1)
         sprite.Scale = Vector(0.5, 0.5)
         sprite:SetFrame("Idle", 0)
     end
+
+    mod:reloadColors()
 
     self.sprites.all:SetFrame("IdleDown", 0)
 
@@ -114,9 +127,6 @@ function mod:init()
         },
     }
 
-    self.font = Font()
-    self.font:Load("font/pftempestasevencondensed.fnt")
-
     mod:calculate(Isaac.GetRoomEntities())
 end
 
@@ -156,7 +166,7 @@ function mod:renderDetailed()
                 familiar.textCount,
                 familiar.spriteOffset.X + textOffsetX + hudOffset.X + xOffset,
                 familiar.spriteOffset.Y + (lineHeight * lineIndex).Y + familiar.textOffsetY + hudOffset.Y + yOffset,
-                KColor(1, 1, 1, 1)
+                self.textColor
             )
 
             lineIndex = lineIndex + 1
@@ -169,7 +179,7 @@ function mod:renderDetailed()
             tostring(totalFamiliars) .. "/64",
             hudOffset.X + xOffset,
             2 + lineHeight.Y * lineIndex + hudOffset.Y + yOffset,
-            KColor(1, 1, 1, 1)
+            self.textColor
         )
     end
 end

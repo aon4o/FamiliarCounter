@@ -1,4 +1,5 @@
 local metadata = require("src.metadata")
+local math = require("math")
 
 local settings = {
     detailed = true,
@@ -8,7 +9,7 @@ local settings = {
     lineHeight = 12,
 }
 
-function settings:load()
+function settings:load(mod)
     if ModConfigMenu == nil then
         return
     end
@@ -120,15 +121,16 @@ function settings:load()
     menu.AddSetting(categoryName, sectionSettings, {
         Type = menu.OptionType.SCROLL,
         CurrentSetting = function()
-            return settings.textOpacity
+            return settings.textOpacity * 10
         end,
         Display = function()
-            return "Text Opacity: $scroll" .. settings.textOpacity
+            return "Text Opacity: $scroll" .. math.tointeger(settings.textOpacity * 10)
         end,
         OnChange = function(value)
-            settings.textOpacity = value
+            settings.textOpacity = value / 10
+            mod:reloadColors()
         end,
-        Info = { "How transperent the text is." }
+        Info = { "How transperent the text is. Default: 0.6" }
     })
 end
 

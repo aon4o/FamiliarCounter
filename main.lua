@@ -1,7 +1,7 @@
 local mod = require("src.mod")
 local settings = require("src.settings")
 
-settings:load()
+settings:load(mod)
 
 mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.init);
 mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, mod.save)
